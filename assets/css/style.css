@@ -24,6 +24,10 @@ ul {
   cursor: pointer;
 }
 
+.active {
+  transition: all .5s;
+}
+
 /* slide */
 .slide {
   margin-top: 50px;
@@ -38,12 +42,13 @@ ul {
 }
 
 .slide .slide-thumb li {
-  --width: 30px;
+  --width: 35px;
   flex-basis: var(--width);
   border-radius: 50%;
   height: var(--width);
   overflow: hidden;
   opacity: .5;
+  border: 5px solid transparent;
 }
 
 .slide .slide-thumb li.active
@@ -52,6 +57,7 @@ ul {
   flex-basis: var(--width);
   height: var(--width);
   opacity: 1;
+  border: none;
 }
 
 .slide .slide-thumb img {
