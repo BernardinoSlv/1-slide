@@ -13,6 +13,20 @@ export default class Slide {
     this.#slideImagesElem = elem.querySelector(".slide-images");
   }
 
+  /**
+   * coloca a classe active no elemento do index e remove do anterior
+   *
+   * @param {Number} index
+   */
+  #activeByIndex(index)
+  {
+    this.#slideThumbElem.querySelector(".active").classList.remove("active");
+    this.#slideThumbElem.querySelector(`li[data-index="${index}"]`).classList.add("active");
+
+    this.#slideImagesElem.querySelector(".active").classList.remove("active");
+    this.#slideImagesElem.querySelector(`[data-index="${index}"]`).classList.add("active");
+  }
+
   #initSlideThumb()
   {
     this.#slideElem.querySelectorAll(".slide-thumb li").forEach((slideThumbItem) => {
@@ -21,13 +35,7 @@ export default class Slide {
         const slideImageItemElem = this.#slideImagesElem
           .querySelector(`.item[data-index="${index}"]`);
 
-        // mudando active do slide-thumb
-        this.#slideThumbElem.querySelector("li.active").classList.remove("active");
-        slideThumbItem.classList.add("active");
-
-        // mudando active do slide-images
-        this.#slideImagesElem.querySelector(".item.active").classList.remove("active");
-        slideImageItemElem.classList.add("active");
+        this.#activeByIndex(index);
 
         // mudar a posição do scrool
         const leftTarget = slideImageItemElem.getClientRects()[0].left;
@@ -66,27 +74,13 @@ export default class Slide {
         const paddingLeftSize = parseInt(getComputedStyle(this.#slideImagesElem).paddingLeft);
 
         if (clientRect.left + 200 >= 0) {
-          const index = itemElem.dataset.index;
-          this.#slideImagesElem.querySelector(".active").classList.remove("active");
-          itemElem.classList.add("active");
-          this.#slideElem.querySelector(".slide-thumb .active").classList.remove("active");
-          this.#slideElem.querySelector(`.slide-thumb [data-index="${index}"]`).classList.add("active");
+          this.#activeByIndex(itemElem.dataset.index);
           this.#slideImagesElem.scroll({
             left: scrollX + clientRect.left - (paddingLeftSize / 2),
             behavior: "smooth"
           });
           break;
         }
-        // if (clientRect.right >= 300) {
-        //   this.#slideImagesElem.querySelector(".active").classList.remove("active");
-        //   itemElem.classList.add("active");
-        //   console.log("right > 300");
-        //   this.#slideImagesElem.scroll({
-        //     left: scrollX + clientRect.left - (paddingLeftSize / 2),
-        //     behavior: "smooth"
-        //   });
-        //   break;
-        // }
       }
     });
     this.#slideImagesElem.addEventListener("mouseleave", () => {
