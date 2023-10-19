@@ -1,7 +1,5 @@
 import Slide from "./Slide.js";
 
 window.addEventListener("load", () => {
-  const slide = new Slide(document.querySelector(".slide"));
-
-  slide.init();
+  document.querySelectorAll(".slide").forEach(elem => (new Slide(elem)).init());
 });
