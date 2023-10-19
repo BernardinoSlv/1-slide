@@ -96,10 +96,19 @@ export default class Slide {
       this.#slideImagesElem.addEventListener("mousemove", handleMouseMove);
     });
 
+    this.#slideImagesElem.addEventListener("touchstart", (event) => {
+      lastMousePositionX = event.clientX;
+    })
+
     this.#slideImagesElem.addEventListener("mouseup", () => {
       this.#slideImagesElem.removeEventListener("mousemove", handleMouseMove);
       this.#moveCloser();
     });
+
+    this.#slideImagesElem.addEventListener("touchend", () => {
+      this.#moveCloser();
+    });
+
 
     this.#slideImagesElem.addEventListener("mouseleave", () => {
       this.#slideImagesElem.removeEventListener("mousemove", handleMouseMove);
