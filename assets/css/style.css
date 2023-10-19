@@ -37,7 +37,7 @@ ul {
   gap: 5px;
   justify-content: center;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 4px;
 }
 
 .slide .slide-thumb li {
@@ -73,6 +73,10 @@ ul {
   align-items: center;
   padding-bottom: 20px;
   padding: 0 calc((100% - 800px));
+}
+
+.slide .slide-images::-webkit-scrollbar{
+  height: 0px;
 }
 
 .slide .slide-images .item {
