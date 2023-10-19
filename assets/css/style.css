@@ -76,7 +76,8 @@ ul {
 }
 
 .slide .slide-images .item {
-  width: 600px;
+  width: 800px;
+  padding: 0 100px;
   max-width: 100vw;
   flex-shrink: 0;
   height: 400px;
@@ -100,6 +101,7 @@ ul {
 .slide .slide-images .item.active {
   opacity: 1;
   width: 800px;
+  padding: 0;
   height: 500px;
 }
 
