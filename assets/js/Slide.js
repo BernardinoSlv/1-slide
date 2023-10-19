@@ -49,10 +49,31 @@ export default class Slide {
     })
   }
 
-  #initSlideImages()
+  /**
+   * move para a imagem mais próxima
+   */
+  #moveCloser()
   {
     const slideImageItemElements = Array.from(this.#slideImagesElem.querySelectorAll(".item"));
+    const scrollX = this.#slideImagesElem.scrollLeft;
 
+    for (const itemElem of slideImageItemElements) {
+      const clientRect = itemElem.getClientRects()[0];
+      const paddingLeftSize = parseInt(getComputedStyle(this.#slideImagesElem).paddingLeft);
+
+      if (clientRect.left + 200 >= 0) {
+        this.#activeByIndex(itemElem.dataset.index);
+        this.#slideImagesElem.scroll({
+          left: scrollX + clientRect.left - (paddingLeftSize / 2),
+          behavior: "smooth"
+        });
+        break;
+      }
+    }
+  }
+
+  #initSlideImages()
+  {
     let lastMousePositionX = 0;
     const handleMouseMove = (event) => {
       const movedX = parseInt((event.clientX - lastMousePositionX));
@@ -61,35 +82,26 @@ export default class Slide {
       });
       lastMousePositionX = event.clientX;
     }
+
     this.#slideImagesElem.addEventListener("mousedown", (event) => {
       lastMousePositionX = event.clientX;
       this.#slideImagesElem.addEventListener("mousemove", handleMouseMove);
     });
+
     this.#slideImagesElem.addEventListener("mouseup", () => {
       this.#slideImagesElem.removeEventListener("mousemove", handleMouseMove);
-      const scrollX = this.#slideImagesElem.scrollLeft;
-
-      for (const itemElem of slideImageItemElements) {
-        const clientRect = itemElem.getClientRects()[0];
-        const paddingLeftSize = parseInt(getComputedStyle(this.#slideImagesElem).paddingLeft);
-
-        if (clientRect.left + 200 >= 0) {
-          this.#activeByIndex(itemElem.dataset.index);
-          this.#slideImagesElem.scroll({
-            left: scrollX + clientRect.left - (paddingLeftSize / 2),
-            behavior: "smooth"
-          });
-          break;
-        }
-      }
+      this.#moveCloser();
     });
+    
     this.#slideImagesElem.addEventListener("mouseleave", () => {
-      console.log("saiu");
+      this.#slideImagesElem.removeEventListener("mousemove", handleMouseMove);
+      this.#moveCloser()
     });
   }
 
   init()
   {
+    this.#moveCloser();
     this.#initSlideThumb();
     this.#initSlideImages();
   }
