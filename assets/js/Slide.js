@@ -69,6 +69,14 @@ export default class Slide {
         });
         break;
       }
+      else if (clientRect.right > 500) {
+        this.#activeByIndex(itemElem.dataset.index);
+        this.#slideImagesElem.scroll({
+          left: scrollX + clientRect.left - (paddingLeftSize / 2),
+          behavior: "smooth"
+        });
+        break;
+      }
     }
   }
 
@@ -92,7 +100,7 @@ export default class Slide {
       this.#slideImagesElem.removeEventListener("mousemove", handleMouseMove);
       this.#moveCloser();
     });
-    
+
     this.#slideImagesElem.addEventListener("mouseleave", () => {
       this.#slideImagesElem.removeEventListener("mousemove", handleMouseMove);
       this.#moveCloser()
